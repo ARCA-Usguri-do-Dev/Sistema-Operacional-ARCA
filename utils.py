@@ -9,7 +9,6 @@ incluindo:
 """
 
 import os
-import time
 from datetime import datetime
 
 # Limpeza de console 
