@@ -1,0 +1,20 @@
+# Arquivos Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Arquivos temporários e de log
+*.log
+*.tmp
+*.swp
+
+# Arquivos de ambiente virtual
+venv/
+.env
+config.py
+
+
+# Chave da API
+api_clima.py
+geolocalizacao.py
