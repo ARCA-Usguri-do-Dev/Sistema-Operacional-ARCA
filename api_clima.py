@@ -51,14 +51,26 @@ def obter_temperatura(lat, lon):
         response.raise_for_status()  # Levanta exceção para códigos de erro HTTP
         
         dados = response.json()
-
-        temperatura = dados["current_weather"]["temperature"]
-        weathercode = dados["current_weather"]["weathercode"]
-        chuva_prob = dados["hourly"]["precipitation_probability"][0]
-        chuva_acumulada = dados["daily"]["precipitation_sum"][0]
+        
+        # Validação da estrutura da resposta
+        if not isinstance(dados, dict):
+            raise ValueError("Resposta da API em formato inválido")
+            
+        # Extração dos dados com validação
+        current_weather = dados.get("current_weather", {})
+        hourly = dados.get("hourly", {})
+        daily = dados.get("daily", {})
+        current = dados.get("current", {})
+        
+        # Valores padrão caso algum campo não exista
+        temperatura = current_weather.get("temperature", 28.0)
+        weathercode = current_weather.get("weathercode", 0)
+        chuva_prob = hourly.get("precipitation_probability", [0])[0] if hourly.get("precipitation_probability") else 0
+        chuva_acumulada = daily.get("precipitation_sum", [0])[0] if daily.get("precipitation_sum") else 0
+        velocidade_vento = current.get("windspeed_10m", 0.0)
+        rajadas_vento = current.get("windgusts_10m", 0.0)
+        
         condicao = interpretar_condicao_tempo(weathercode)
-        velocidade_vento = dados["current"]["windspeed_10m"]
-        rajadas_vento = dados["current"]["windgusts_10m"]
 
         return temperatura, chuva_prob, chuva_acumulada, condicao, velocidade_vento, rajadas_vento
         
