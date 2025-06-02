@@ -110,7 +110,7 @@ def validar_capacidade(capacidade):
         return cap
     except ValueError:
         print("⚠️ Por favor, digite um número válido.")
-        return None
+    return None
 
 def validar_coordenadas(lat, lon):
     """
@@ -294,36 +294,42 @@ def menu_pontos_apoio(usuario_logado):
                     print("Nenhum ponto de apoio encontrado próximo a você.")
                     continue
 
-                while True:
-                    try:
-                        escolha = int(input("\nDigite o ID do ponto para ver detalhes ou 0 para voltar: "))
-                        if escolha == 0:
-                            break
-                        if escolha in encontrados:
-                            ver_detalhes(escolha, usuario_logado)
-                        else:
-                            print("⚠️ ID inválido.")
-                    except ValueError:
-                        print("⚠️ Por favor, digite um número válido.")
+                try:
+                    escolha = int(input("\nDigite o ID do ponto para ver detalhes ou 0 para voltar: "))
+                    if escolha == 0:
+                        continue
+                    if escolha in encontrados:
+                        ver_detalhes(escolha, usuario_logado)
+                        input("\nPressione Enter para continuar...")
+                    else:
+                        print("⚠️ ID inválido.")
+                        input("\nPressione Enter para continuar...")
+                except ValueError:
+                    print("⚠️ Por favor, digite um número válido.")
+                    input("\nPressione Enter para continuar...")
             
             elif opcao == "2":
                 cadastrar_ponto_apoio()
+                input("\nPressione Enter para continuar...")
                 
             elif opcao == "3" and usuario_logado['perfil'] == 'Administrador':
                 print("\n~~~ Todos os Pontos de Apoio ~~~")
                 for p in pontos_apoio:
                     print(f"[{p['id']}] {p['nome']} — {p['rua']} | Status: {p['status']}")
                 
-                while True:
-                    try:
-                        escolha = int(input("\nDigite o ID do ponto para ver detalhes ou 0 para voltar: "))
-                        if escolha == 0:
-                            break
-                        ver_detalhes(escolha, usuario_logado)
-                    except ValueError:
-                        print("⚠️ Por favor, digite um número válido.")
+                try:
+                    escolha = int(input("\nDigite o ID do ponto para ver detalhes ou 0 para voltar: "))
+                    if escolha == 0:
+                        continue
+                    ver_detalhes(escolha, usuario_logado)
+                    input("\nPressione Enter para continuar...")
+                except ValueError:
+                    print("⚠️ Por favor, digite um número válido.")
+                    input("\nPressione Enter para continuar...")
             else:
                 print("⚠️ Opção inválida!")
+                input("\nPressione Enter para continuar...")
                 
     except Exception as e:
         print(f"Erro no menu de pontos de apoio: {e}")
+        input("\nPressione Enter para continuar...")

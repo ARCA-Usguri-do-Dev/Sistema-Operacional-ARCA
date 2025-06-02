@@ -76,7 +76,7 @@ def menu_usuarios(usuario_logado):
         print("\n~~~~ Menu de Usuários ~~~~")
         print("1 - Ver meu perfil")
         print("2 - Editar meu perfil")
-        print("3 - Ver usuários conectados")
+        print("3 - Ver usuários registrados")
         print("4 - Trocar de usuário")
         print("0 - Voltar")
         
