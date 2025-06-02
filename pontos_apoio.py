@@ -36,13 +36,25 @@ def calcular_distancia(lat1, lon1, lat2, lon2):
         print(f"Erro ao calcular distância: {e}")
         return float('inf')
 
-def ver_detalhes(id):
+def ver_detalhes(id, usuario_logado):
     """
     Mostra os detalhes de um ponto de apoio específico
+    
+    Args:
+        id (int): ID do ponto de apoio
+        usuario_logado (dict): Dicionário com dados do usuário logado
+        
+    Returns:
+        dict: Dicionário com dados do ponto de apoio ou None se não encontrado
     """
     try:
         for ponto in pontos_apoio:
             if ponto['id'] == id:
+                # Verifica se é administrador ou se o ponto está aprovado
+                if usuario_logado['perfil'] != 'Administrador' and ponto['status'] != 'Aprovado':
+                    print("⚠️ Acesso restrito. Apenas administradores podem ver pontos pendentes.")
+                    return None
+                    
                 print("\n📍 Detalhes do Ponto de Apoio")
                 print(f"Nome: {ponto['nome']}")
                 print(f"Endereço: {ponto['rua']}, {ponto['bairro']}")
@@ -228,6 +240,8 @@ def menu_pontos_apoio(usuario_logado):
             print("\n~~~ Menu de Pontos de Apoio ~~~")
             print("1. Buscar pontos próximos")
             print("2. Cadastrar novo ponto")
+            if usuario_logado['perfil'] == 'Administrador':
+                print("3. Ver todos os pontos de apoio")
             print("0. Voltar")
             
             opcao = input("\nEscolha uma opção: ")
@@ -247,21 +261,24 @@ def menu_pontos_apoio(usuario_logado):
                 pontos_distantes = []
 
                 for p in pontos_apoio:
-                    if p['status'].lower() == 'aprovado':
-                        distancia = calcular_distancia(lat, lon, p['lat'], p['lon'])
-                        ponto_info = {
-                            'id': p['id'],
-                            'nome': p['nome'],
-                            'rua': p['rua'],
-                            'distancia': distancia,
-                            'capacidade': p['capacidade']
-                        }
+                    # Se não for admin, só mostra pontos aprovados
+                    if usuario_logado['perfil'] != 'Administrador' and p['status'] != 'Aprovado':
+                        continue
                         
-                        if distancia <= RAIO_PROXIMO:
-                            pontos_proximos.append(ponto_info)
-                        elif distancia <= RAIO_DISTANTE:
-                            pontos_distantes.append(ponto_info)
-                        encontrados.append(p['id'])
+                    distancia = calcular_distancia(lat, lon, p['lat'], p['lon'])
+                    ponto_info = {
+                        'id': p['id'],
+                        'nome': p['nome'],
+                        'rua': p['rua'],
+                        'distancia': distancia,
+                        'capacidade': p['capacidade']
+                    }
+                    
+                    if distancia <= RAIO_PROXIMO:
+                        pontos_proximos.append(ponto_info)
+                    elif distancia <= RAIO_DISTANTE:
+                        pontos_distantes.append(ponto_info)
+                    encontrados.append(p['id'])
 
                 if pontos_proximos:
                     print("📍 Pontos próximos (até 5km):")
@@ -283,7 +300,7 @@ def menu_pontos_apoio(usuario_logado):
                         if escolha == 0:
                             break
                         if escolha in encontrados:
-                            ver_detalhes(escolha)
+                            ver_detalhes(escolha, usuario_logado)
                         else:
                             print("⚠️ ID inválido.")
                     except ValueError:
@@ -291,6 +308,20 @@ def menu_pontos_apoio(usuario_logado):
             
             elif opcao == "2":
                 cadastrar_ponto_apoio()
+                
+            elif opcao == "3" and usuario_logado['perfil'] == 'Administrador':
+                print("\n~~~ Todos os Pontos de Apoio ~~~")
+                for p in pontos_apoio:
+                    print(f"[{p['id']}] {p['nome']} — {p['rua']} | Status: {p['status']}")
+                
+                while True:
+                    try:
+                        escolha = int(input("\nDigite o ID do ponto para ver detalhes ou 0 para voltar: "))
+                        if escolha == 0:
+                            break
+                        ver_detalhes(escolha, usuario_logado)
+                    except ValueError:
+                        print("⚠️ Por favor, digite um número válido.")
             else:
                 print("⚠️ Opção inválida!")
                 
