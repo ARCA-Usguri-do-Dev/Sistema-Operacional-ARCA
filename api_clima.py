@@ -7,6 +7,8 @@ a API Open-Meteo, incluindo:
 - Probabilidade de chuva
 - Precipitação acumulada
 - Condições do tempo
+- Velocidade do vento
+- Rajadas de vento
 """
 
 import requests
@@ -20,14 +22,16 @@ def obter_temperatura(lat, lon):
         lon (float): Longitude da localização
         
     Returns:
-        tuple: Tupla contendo (temperatura, chuva_prob, chuva_acumulada, condicao)
+        tuple: Tupla contendo (temperatura, chuva_prob, chuva_acumulada, condicao, velocidade_vento, rajadas_vento)
             - temperatura (float): Temperatura atual em graus Celsius
             - chuva_prob (int): Probabilidade de chuva em porcentagem
             - chuva_acumulada (float): Precipitação acumulada em mm
             - condicao (str): Descrição das condições do tempo
+            - velocidade_vento (float): Velocidade do vento em km/h
+            - rajadas_vento (float): Velocidade das rajadas de vento em km/h
             
         Em caso de erro, retorna valores padrão:
-            (28.0, 0, 0, "Desconhecido")
+            (28.0, 0, 0, "Desconhecido", 0.0, 0.0)
     
     Raises:
         requests.RequestException: Se houver erro na requisição HTTP
@@ -38,6 +42,7 @@ def obter_temperatura(lat, lon):
         f"&current_weather=true"
         f"&hourly=precipitation_probability"
         f"&daily=precipitation_sum"
+        f"&current=windspeed_10m,windgusts_10m"
         f"&timezone=America%2FSao_Paulo"
     )
 
@@ -52,15 +57,17 @@ def obter_temperatura(lat, lon):
         chuva_prob = dados["hourly"]["precipitation_probability"][0]
         chuva_acumulada = dados["daily"]["precipitation_sum"][0]
         condicao = interpretar_condicao_tempo(weathercode)
+        velocidade_vento = dados["current"]["windspeed_10m"]
+        rajadas_vento = dados["current"]["windgusts_10m"]
 
-        return temperatura, chuva_prob, chuva_acumulada, condicao
+        return temperatura, chuva_prob, chuva_acumulada, condicao, velocidade_vento, rajadas_vento
         
     except requests.RequestException as e:
         print(f"⚠️ Erro na API Open-Meteo: {str(e)}")
-        return 28.0, 0, 0, "Desconhecido"
+        return 28.0, 0, 0, "Desconhecido", 0.0, 0.0
     except Exception as e:
         print(f"⚠️ Erro ao conectar com API de clima: {str(e)}")
-        return 28.0, 0, 0, "Desconhecido"
+        return 28.0, 0, 0, "Desconhecido", 0.0, 0.0
 
 def interpretar_condicao_tempo(codigo):
     """

@@ -38,8 +38,7 @@ def gerar_alertas_automaticos(lat, lon, cidade, estado, bairro, rua):
             - bairro: Bairro afetado
             - cidade: Cidade afetada
     """
-    temperatura, chuva, chuva_acumulada, condicao = obter_temperatura(lat, lon)
-    dt_atual = datetime.now().strftime("%Y-%m-%d %H:%M")
+    temperatura, chuva, chuva_acumulada, condicao, velocidade_vento, rajadas_vento = obter_temperatura(lat, lon)
     dt_atual = data_atual_formatada()
 
     alertas = []
@@ -59,7 +58,7 @@ def gerar_alertas_automaticos(lat, lon, cidade, estado, bairro, rua):
     # Alerta de chuvas intensas
     if chuva >= 70:
         alertas.append({
-            'id': 2,
+            'id': 1002,
             'tipo': 'Chuvas intensas',
             'nivel': 'Atenção' if chuva < 90 else 'Alerta Máximo',
             'descricao': f'Previsão de {chuva}% de chance de chuva nas próximas horas.',
@@ -87,6 +86,30 @@ def gerar_alertas_automaticos(lat, lon, cidade, estado, bairro, rua):
             'tipo': 'Risco de enchente',
             'nivel': 'Atenção' if chuva_acumulada < 50 else 'Alerta Máximo',
             'descricao': f'Previsão de {chuva_acumulada} mm de chuva acumulada nas próximas 24h.',
+            'data_emissao': dt_atual,
+            'bairro': bairro,
+            'cidade': cidade
+        })
+
+    # Alerta de ventos fortes
+    if velocidade_vento >= 30:
+        alertas.append({
+            'id': 1005,
+            'tipo': 'Ventos fortes',
+            'nivel': 'Atenção' if velocidade_vento < 50 else 'Alerta Máximo',
+            'descricao': f'Velocidade do vento de {velocidade_vento} km/h detectada. Mantenha-se em local seguro.',
+            'data_emissao': dt_atual,
+            'bairro': bairro,
+            'cidade': cidade
+        })
+
+    # Alerta de rajadas de vento
+    if rajadas_vento >= 50:
+        alertas.append({
+            'id': 1006,
+            'tipo': 'Rajadas de vento',
+            'nivel': 'Atenção' if rajadas_vento < 70 else 'Alerta Máximo',
+            'descricao': f'Rajadas de vento de até {rajadas_vento} km/h. Evite áreas abertas e objetos soltos.',
             'data_emissao': dt_atual,
             'bairro': bairro,
             'cidade': cidade
@@ -145,6 +168,24 @@ def gerar_alertas_simulados(lat, lon, cidade, estado, bairro, rua):
             'tipo': 'Risco de enchente',
             'nivel': 'Atenção',
             'descricao': f'Previsão de 45mm de chuva acumulada nas próximas 24h. Evite áreas baixas.',
+            'data_emissao': dt_atual,
+            'bairro': bairro,
+            'cidade': cidade
+        },
+        {
+            'id': 1005,
+            'tipo': 'Ventos fortes',
+            'nivel': 'Alerta Máximo',
+            'descricao': f'Velocidade do vento de 45 km/h detectada. Mantenha-se em local seguro.',
+            'data_emissao': dt_atual,
+            'bairro': bairro,
+            'cidade': cidade
+        },
+        {
+            'id': 1006,
+            'tipo': 'Rajadas de vento',
+            'nivel': 'Alerta Máximo',
+            'descricao': f'Rajadas de vento de até 75 km/h. Evite áreas abertas e objetos soltos.',
             'data_emissao': dt_atual,
             'bairro': bairro,
             'cidade': cidade
