@@ -104,6 +104,9 @@ def menu_main():
 
     print("\n✅ Sistema finalizado com sucesso.\n")
 
-if __name__ == "__main__":
+def iniciar_sistema():
     limpar_console()
     menu_main()
+
+if __name__ == "__main__":
+    iniciar_sistema()
