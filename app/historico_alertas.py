@@ -7,7 +7,7 @@ Este módulo gerencia o histórico de alertas do sistema ARCA, incluindo:
 - Visualização do histórico de alertas
 """
 
-from geolocalizacao import obter_regiao
+from app.api.geolocalizacao import obter_regiao
 
 # Lista que armazena o histórico de alertas
 historico_alertas = []

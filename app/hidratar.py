@@ -7,9 +7,9 @@ que uma pessoa deve ingerir diariamente, baseado em:
 - Temperatura atual da região
 """
 
-from api_clima import obter_temperatura
-from geolocalizacao import obter_regiao
-from utils import validar_input_float
+from app.api.api_clima import obter_temperatura
+from app.api.geolocalizacao import obter_regiao
+from app.core.utils import validar_input_float
 
 def calcular_hidratacao(temperatura, peso):
     """

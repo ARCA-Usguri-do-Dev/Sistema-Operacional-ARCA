@@ -1,6 +1,6 @@
-from geolocalizacao import obter_regiao
+from app.api.geolocalizacao import obter_regiao
 from math import radians, sin, cos, sqrt, atan2
-from utils import validar_input_float
+from app.core.utils import validar_input_float
 import re
 
 # Constantes

@@ -8,10 +8,10 @@ incluindo:
 - Registro de alertas no histórico
 """
 
-from geolocalizacao import obter_regiao
-from api_clima import obter_temperatura
-from historico_alertas import registrar_alerta
-from utils import data_atual_formatada
+from app.api.geolocalizacao import obter_regiao
+from app.api.api_clima import obter_temperatura
+from app.historico_alertas import registrar_alerta
+from app.core.utils import data_atual_formatada
 import random
 
 

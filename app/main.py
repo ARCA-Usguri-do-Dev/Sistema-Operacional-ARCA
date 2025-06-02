@@ -13,14 +13,23 @@ Módulos importados:
 - utils: Funções utilitárias
 """
 
-from usuarios import menu_usuarios, selecionar_usuario
-from alertas import menu_alertas
-from pontos_apoio import menu_pontos_apoio
-from historico_alertas import menu_historico_alertas
-from hidratar import menu_calculadora_hidratacao
-from utils import limpar_console
+# Importações do sistema
+from app.core.utils import limpar_console
+
+# Importações dos módulos do sistema
+from app.usuarios import (
+    menu_usuarios,
+    selecionar_usuario,
+    usuarios
+)
+
+from app.alertas import menu_alertas
+from app.pontos_apoio import menu_pontos_apoio
+from app.historico_alertas import menu_historico_alertas
+from app.hidratar import menu_calculadora_hidratacao
+
+# Importações da biblioteca padrão
 import random
-from usuarios import usuarios
 
 # Inicializa com um usuário aleatório
 usuario_logado = random.choice(usuarios)
