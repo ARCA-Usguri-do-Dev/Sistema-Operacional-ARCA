@@ -8,7 +8,6 @@ incluindo:
 - Registro de alertas no histórico
 """
 
-from datetime import datetime
 from geolocalizacao import obter_regiao
 from api_clima import obter_temperatura
 from historico_alertas import registrar_alerta
@@ -38,84 +37,88 @@ def gerar_alertas_automaticos(lat, lon, cidade, estado, bairro, rua):
             - bairro: Bairro afetado
             - cidade: Cidade afetada
     """
-    temperatura, chuva, chuva_acumulada, condicao, velocidade_vento, rajadas_vento = obter_temperatura(lat, lon)
-    dt_atual = data_atual_formatada()
+    try:
+        temperatura, chuva, chuva_acumulada, condicao, velocidade_vento, rajadas_vento = obter_temperatura(lat, lon)
+        dt_atual = data_atual_formatada()
 
-    alertas = []
+        alertas = []
 
-    # Alerta de calor extremo
-    if temperatura >= 32:
-        alertas.append({
-            'id': 1001,
-            'tipo': 'Calor extremo',
-            'nivel': 'Informativo' if temperatura < 36 else 'Alerta Máximo',
-            'descricao': f'Temperatura de {temperatura} °C detectada na sua região.',
-            'data_emissao': dt_atual,
-            'bairro': bairro,
-            'cidade': cidade
-        })
+        # Alerta de calor extremo
+        if temperatura >= 32:
+            alertas.append({
+                'id': 1001,
+                'tipo': 'Calor extremo',
+                'nivel': 'Informativo' if temperatura < 36 else 'Alerta Máximo',
+                'descricao': f'Temperatura de {temperatura} °C detectada na sua região.',
+                'data_emissao': dt_atual,
+                'bairro': bairro,
+                'cidade': cidade
+            })
 
-    # Alerta de chuvas intensas
-    if chuva >= 70:
-        alertas.append({
-            'id': 1002,
-            'tipo': 'Chuvas intensas',
-            'nivel': 'Atenção' if chuva < 90 else 'Alerta Máximo',
-            'descricao': f'Previsão de {chuva}% de chance de chuva nas próximas horas.',
-            'data_emissao': dt_atual,
-            'bairro': bairro,
-            'cidade': cidade
-        })
+        # Alerta de chuvas intensas
+        if chuva >= 70:
+            alertas.append({
+                'id': 1002,
+                'tipo': 'Chuvas intensas',
+                'nivel': 'Atenção' if chuva < 90 else 'Alerta Máximo',
+                'descricao': f'Previsão de {chuva}% de chance de chuva nas próximas horas.',
+                'data_emissao': dt_atual,
+                'bairro': bairro,
+                'cidade': cidade
+            })
 
-    # Alerta de tempestade
-    if condicao in ['Tempestade', 'Chuva forte']:
-        alertas.append({
-            'id': 1003,
-            'tipo': 'Tempestade',
-            'nivel': 'Alerta Máximo',
-            'descricao': f'Condição atual: {condicao}. Risco de raios e ventos fortes.',
-            'data_emissao': dt_atual,
-            'bairro': bairro,
-            'cidade': cidade
-        })
+        # Alerta de tempestade
+        if condicao in ['Tempestade', 'Chuva forte']:
+            alertas.append({
+                'id': 1003,
+                'tipo': 'Tempestade',
+                'nivel': 'Alerta Máximo',
+                'descricao': f'Condição atual: {condicao}. Risco de raios e ventos fortes.',
+                'data_emissao': dt_atual,
+                'bairro': bairro,
+                'cidade': cidade
+            })
 
-    # Alerta de risco de enchente
-    if chuva_acumulada >= 30:
-        alertas.append({
-            'id': 1004,
-            'tipo': 'Risco de enchente',
-            'nivel': 'Atenção' if chuva_acumulada < 50 else 'Alerta Máximo',
-            'descricao': f'Previsão de {chuva_acumulada} mm de chuva acumulada nas próximas 24h.',
-            'data_emissao': dt_atual,
-            'bairro': bairro,
-            'cidade': cidade
-        })
+        # Alerta de risco de enchente
+        if chuva_acumulada >= 30:
+            alertas.append({
+                'id': 1004,
+                'tipo': 'Risco de enchente',
+                'nivel': 'Atenção' if chuva_acumulada < 50 else 'Alerta Máximo',
+                'descricao': f'Previsão de {chuva_acumulada} mm de chuva acumulada nas próximas 24h.',
+                'data_emissao': dt_atual,
+                'bairro': bairro,
+                'cidade': cidade
+            })
 
-    # Alerta de ventos fortes
-    if velocidade_vento >= 30:
-        alertas.append({
-            'id': 1005,
-            'tipo': 'Ventos fortes',
-            'nivel': 'Atenção' if velocidade_vento < 50 else 'Alerta Máximo',
-            'descricao': f'Velocidade do vento de {velocidade_vento} km/h detectada. Mantenha-se em local seguro.',
-            'data_emissao': dt_atual,
-            'bairro': bairro,
-            'cidade': cidade
-        })
+        # Alerta de ventos fortes
+        if velocidade_vento >= 30:
+            alertas.append({
+                'id': 1005,
+                'tipo': 'Ventos fortes',
+                'nivel': 'Atenção' if velocidade_vento < 50 else 'Alerta Máximo',
+                'descricao': f'Velocidade do vento de {velocidade_vento} km/h detectada. Mantenha-se em local seguro.',
+                'data_emissao': dt_atual,
+                'bairro': bairro,
+                'cidade': cidade
+            })
 
-    # Alerta de rajadas de vento
-    if rajadas_vento >= 50:
-        alertas.append({
-            'id': 1006,
-            'tipo': 'Rajadas de vento',
-            'nivel': 'Atenção' if rajadas_vento < 70 else 'Alerta Máximo',
-            'descricao': f'Rajadas de vento de até {rajadas_vento} km/h. Evite áreas abertas e objetos soltos.',
-            'data_emissao': dt_atual,
-            'bairro': bairro,
-            'cidade': cidade
-        })
+        # Alerta de rajadas de vento
+        if rajadas_vento >= 50:
+            alertas.append({
+                'id': 1006,
+                'tipo': 'Rajadas de vento',
+                'nivel': 'Atenção' if rajadas_vento < 70 else 'Alerta Máximo',
+                'descricao': f'Rajadas de vento de até {rajadas_vento} km/h. Evite áreas abertas e objetos soltos.',
+                'data_emissao': dt_atual,
+                'bairro': bairro,
+                'cidade': cidade
+            })
 
-    return alertas
+        return alertas
+    except Exception as e:
+        print(f"⚠️ Erro ao gerar alertas automáticos: {str(e)}")
+        return []
 
 def gerar_alertas_simulados(lat, lon, cidade, estado, bairro, rua):
     """
@@ -205,56 +208,60 @@ def menu_alertas(usuario_logado):
     Returns:
         None: A função apenas exibe as informações na tela e registra os alertas
     """
-    lat = usuario_logado['lat']
-    lon = usuario_logado['lon']
-    rua, bairro, cidade, estado, pais = obter_regiao(lat, lon)
-    
-    print("\nEscolha o tipo de alertas:")
-    print("1 - Alertas em tempo real")
-    print("2 - Alertas simulados (para demonstração)")
-    
-    while True:
-        try:
-            opcao = int(input("\nDigite sua opção (1 ou 2): "))
-            if opcao in [1, 2]:
-                break
-            print("Opção inválida! Digite 1 ou 2.")
-        except ValueError:
-            print("Por favor, digite um número válido.")
-    
-    # Escolhe entre alertas reais ou simulados
-    if opcao == 1:
-        alertas = gerar_alertas_automaticos(lat, lon, cidade, estado, bairro, rua)
-        print(f"Buscando alertas reais para {bairro}, {cidade}...\n")
+    try:
+        lat = usuario_logado['lat']
+        lon = usuario_logado['lon']
+        rua, bairro, cidade, estado, pais = obter_regiao(lat, lon)
         
-        if not alertas:
-            print("Nenhum alerta para sua região.")
-            return
+        print("\n~~~~ Menu de Alertas ~~~~")
+        print("1 - Alertas em tempo real")
+        print("2 - Alertas simulados (para demonstração)")
         
-        # Mostra todos os alertas reais
-        for alerta in alertas:
-            print(f"Emitido em: {alerta['data_emissao']}")
-            print(f"⚠️ {alerta['tipo']} - {alerta['nivel']}")
-            print(f"Local: {alerta['bairro']}, {alerta['cidade']}")
-            print(f"{alerta['descricao']}\n")
-            registrar_alerta(alerta)
+        while True:
+            try:
+                opcao = int(input("\nDigite sua opção (1 ou 2): "))
+                if opcao in [1, 2]:
+                    break
+                print("⚠️ Opção inválida! Digite 1 ou 2.")
+            except ValueError:
+                print("⚠️ Por favor, digite um número válido.")
+        
+        # Escolhe entre alertas reais ou simulados
+        if opcao == 1:
+            alertas = gerar_alertas_automaticos(lat, lon, cidade, estado, bairro, rua)
+            print(f"\n🔍 Buscando alertas reais para {bairro}, {cidade}...\n")
             
-    else:
-        alertas = gerar_alertas_simulados(lat, lon, cidade, estado, bairro, rua)
-        print(f"Exibindo alertas simulados para {bairro}, {cidade}...\n")
-        
-        if not alertas:
-            print("Nenhum alerta simulado disponível.")
-            return
+            if not alertas:
+                print("ℹ️ Nenhum alerta para sua região.")
+                return
             
-        # Para alertas simulados, mostra um aleatório
-        alerta_aleatorio = random.choice(alertas)
-        if alerta_aleatorio["cidade"].lower() == cidade.lower():
-            if alerta_aleatorio["bairro"] == "" or alerta_aleatorio["bairro"].lower() == bairro.lower():
-                print(f"Emitido em: {alerta_aleatorio['data_emissao']}")
-                print(f"⚠️ {alerta_aleatorio['tipo']} - {alerta_aleatorio['nivel']}")
-                print(f"Local: {alerta_aleatorio['bairro']}, {alerta_aleatorio['cidade']}")
-                print(f"{alerta_aleatorio['descricao']}\n")
-                registrar_alerta(alerta_aleatorio)
-    
-    input("\nPressione Enter para continuar...")
+            # Mostra todos os alertas reais
+            for alerta in alertas:
+                print(f"📅 Emitido em: {alerta['data_emissao']}")
+                print(f"⚠️ {alerta['tipo']} - {alerta['nivel']}")
+                print(f"📍 Local: {alerta['bairro']}, {alerta['cidade']}")
+                print(f"📝 {alerta['descricao']}\n")
+                registrar_alerta(alerta)
+                
+        else:
+            alertas = gerar_alertas_simulados(lat, lon, cidade, estado, bairro, rua)
+            print(f"\n🎮 Exibindo alertas simulados para {bairro}, {cidade}...\n")
+            
+            if not alertas:
+                print("ℹ️ Nenhum alerta simulado disponível.")
+                return
+                
+            # Para alertas simulados, mostra um aleatório
+            alerta_aleatorio = random.choice(alertas)
+            if alerta_aleatorio["cidade"].lower() == cidade.lower():
+                if alerta_aleatorio["bairro"] == "" or alerta_aleatorio["bairro"].lower() == bairro.lower():
+                    print(f"📅 Emitido em: {alerta_aleatorio['data_emissao']}")
+                    print(f"⚠️ {alerta_aleatorio['tipo']} - {alerta_aleatorio['nivel']}")
+                    print(f"📍 Local: {alerta_aleatorio['bairro']}, {alerta_aleatorio['cidade']}")
+                    print(f"📝 {alerta_aleatorio['descricao']}\n")
+                    registrar_alerta(alerta_aleatorio)
+        
+        input("\nPressione Enter para continuar...")
+    except Exception as e:
+        print(f"⚠️ Erro no menu de alertas: {str(e)}")
+        input("\nPressione Enter para continuar...")
