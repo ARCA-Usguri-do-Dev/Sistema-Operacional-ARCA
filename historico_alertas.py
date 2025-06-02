@@ -45,20 +45,50 @@ def alerta_ja_registrado(alerta):
             return True
     return False
 
-def menu_historico_alertas():
+def menu_historico_alertas(usuario_logado):
     """
     Exibe o histórico de alertas registrados no sistema.
     
+    Args:
+        usuario_logado (dict): Dicionário contendo os dados do usuário atualmente logado
+        
     Returns:
         None: A função apenas exibe as informações na tela
     """
-    print('\n~~~~ Histórico de Alertas ~~~~')
-    if not historico_alertas:
-        print('Nenhum alerta registrado.')
-        return
+    try:
+        print('\n~~~~ Histórico de Alertas ~~~~')
         
-    for alerta in historico_alertas:
-        print(f'Emitido em: {alerta["data_emissao"]}')
-        print(f'Tipo: {alerta["tipo"]} - Nível: {alerta["nivel"]}')
-        print(f'Local: {alerta["bairro"]}, {alerta["cidade"]}')
-        print(f'{alerta["descricao"]}\n')
+        if not historico_alertas:
+            print('Nenhum alerta registrado.')
+            input("\nPressione Enter para continuar...")
+            return
+            
+        # Filtra alertas por cidade se não for administrador
+        alertas_filtrados = []
+        if usuario_logado['perfil'] != 'Administrador':
+            for alerta in historico_alertas:
+                if alerta['cidade'].lower() == usuario_logado['cidade'].lower():
+                    alertas_filtrados.append(alerta)
+        else:
+            alertas_filtrados = historico_alertas
+            
+        if not alertas_filtrados:
+            print('Nenhum alerta registrado para sua região.')
+            input("\nPressione Enter para continuar...")
+            return
+            
+        # Ordena alertas por data (mais recentes primeiro)
+        alertas_filtrados.sort(key=lambda x: x['data_emissao'], reverse=True)
+        
+        for alerta in alertas_filtrados:
+            print(f'\nEmitido em: {alerta["data_emissao"]}')
+            print(f'⚠️ {alerta["tipo"]} - {alerta["nivel"]}')
+            print(f'Local: {alerta["bairro"]}, {alerta["cidade"]}')
+            print(f'{alerta["descricao"]}')
+            print('-' * 50)
+            
+        input("\nPressione Enter para continuar...")
+        
+    except Exception as e:
+        print(f"Erro ao exibir histórico de alertas: {e}")
+        input("\nPressione Enter para continuar...")
