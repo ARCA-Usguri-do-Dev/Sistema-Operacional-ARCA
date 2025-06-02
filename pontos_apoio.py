@@ -1,6 +1,7 @@
 from geolocalizacao import obter_regiao
 from math import radians, sin, cos, sqrt, atan2
 from utils import validar_input_float
+import re
 
 # Constantes
 RAIO_TERRA = 6371  # Raio da Terra em km
@@ -57,6 +58,67 @@ def ver_detalhes(id):
         print(f"Erro ao mostrar detalhes: {e}")
         return None
 
+def validar_telefone(telefone):
+    """
+    Valida o formato do número de telefone.
+    
+    Args:
+        telefone (str): Número de telefone a ser validado
+        
+    Returns:
+        bool: True se o telefone for válido, False caso contrário
+    """
+    # Remove caracteres não numéricos
+    telefone = re.sub(r'\D', '', telefone)
+    
+    # Verifica se tem entre 10 e 15 dígitos (incluindo DDD e código do país)
+    if len(telefone) < 10 or len(telefone) > 15:
+        return False
+    
+    return True
+
+def validar_capacidade(capacidade):
+    """
+    Valida a capacidade do ponto de apoio.
+    
+    Args:
+        capacidade (str): Capacidade a ser validada
+        
+    Returns:
+        int: Capacidade validada ou None se inválida
+    """
+    try:
+        cap = int(capacidade)
+        if cap <= 0:
+            print("⚠️ A capacidade deve ser maior que zero.")
+            return None
+        if cap > 10000:
+            print("⚠️ A capacidade não pode ser maior que 10.000 pessoas.")
+            return None
+        return cap
+    except ValueError:
+        print("⚠️ Por favor, digite um número válido.")
+        return None
+
+def validar_coordenadas(lat, lon):
+    """
+    Valida as coordenadas geográficas.
+    
+    Args:
+        lat (float): Latitude
+        lon (float): Longitude
+        
+    Returns:
+        bool: True se as coordenadas forem válidas, False caso contrário
+    """
+    if not (-90 <= lat <= 90):
+        print("⚠️ Latitude inválida. Deve estar entre -90 e 90.")
+        return False
+    if not (-180 <= lon <= 180):
+        print("⚠️ Longitude inválida. Deve estar entre -180 e 180.")
+        return False
+    return True
+
 def cadastrar_ponto_apoio():
     """
     Cadastra um novo ponto de apoio no sistema
@@ -67,17 +129,70 @@ def cadastrar_ponto_apoio():
         # Gera um novo ID
         novo_id = max(p['id'] for p in pontos_apoio) + 1
         
-        nome = input("Nome do ponto de apoio: ")
-        bairro = input("Bairro: ")
-        rua = input("Rua: ")
-        cidade = input("Cidade: ")
-        estado = input("Estado: ")
-        pais = input("País: ")
-        capacidade = int(input("Capacidade (número de pessoas): "))
-        telefone = input("Telefone: ")
-        lat = validar_input_float("Latitude: ")
-        lon = validar_input_float("Longitude: ")
-        observacoes = input("Observações: ")
+        # Validação do nome
+        while True:
+            nome = input("Nome do ponto de apoio: ").strip()
+            if len(nome) >= 3:
+                break
+            print("⚠️ O nome deve ter pelo menos 3 caracteres.")
+        
+        # Validação do bairro
+        while True:
+            bairro = input("Bairro: ").strip()
+            if len(bairro) >= 2:
+                break
+            print("⚠️ O bairro deve ter pelo menos 2 caracteres.")
+        
+        # Validação da rua
+        while True:
+            rua = input("Rua: ").strip()
+            if len(rua) >= 3:
+                break
+            print("⚠️ A rua deve ter pelo menos 3 caracteres.")
+        
+        # Validação da cidade
+        while True:
+            cidade = input("Cidade: ").strip()
+            if len(cidade) >= 2:
+                break
+            print("⚠️ A cidade deve ter pelo menos 2 caracteres.")
+        
+        # Validação do estado
+        while True:
+            estado = input("Estado: ").strip()
+            if len(estado) >= 2:
+                break
+            print("⚠️ O estado deve ter pelo menos 2 caracteres.")
+        
+        # Validação do país
+        while True:
+            pais = input("País: ").strip()
+            if len(pais) >= 2:
+                break
+            print("⚠️ O país deve ter pelo menos 2 caracteres.")
+        
+        # Validação da capacidade
+        while True:
+            capacidade = validar_capacidade(input("Capacidade (número de pessoas): "))
+            if capacidade is not None:
+                break
+        
+        # Validação do telefone
+        while True:
+            telefone = input("Telefone: ").strip()
+            if validar_telefone(telefone):
+                break
+            print("⚠️ Telefone inválido. Use o formato: +XX (DDD) XXXX-XXXX")
+        
+        # Validação das coordenadas
+        while True:
+            lat = validar_input_float("Latitude: ")
+            lon = validar_input_float("Longitude: ")
+            if validar_coordenadas(lat, lon):
+                break
+        
+        # Observações (opcional)
+        observacoes = input("Observações: ").strip()
         
         novo_ponto = {
             'id': novo_id,
@@ -92,7 +207,7 @@ def cadastrar_ponto_apoio():
             'status': 'Pendente',
             'lat': lat,
             'lon': lon,
-            'observacoes': f"Observações: {observacoes}"
+            'observacoes': f"Observações: {observacoes}" if observacoes else "Observações: —"
         }
         
         pontos_apoio.append(novo_ponto)
