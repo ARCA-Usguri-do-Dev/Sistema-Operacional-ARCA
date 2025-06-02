@@ -226,19 +226,35 @@ def menu_alertas(usuario_logado):
     if opcao == 1:
         alertas = gerar_alertas_automaticos(lat, lon, cidade, estado, bairro, rua)
         print(f"Buscando alertas reais para {bairro}, {cidade}...\n")
+        
+        if not alertas:
+            print("Nenhum alerta para sua região.")
+            return
+        
+        # Mostra todos os alertas reais
+        for alerta in alertas:
+            print(f"Emitido em: {alerta['data_emissao']}")
+            print(f"⚠️ {alerta['tipo']} - {alerta['nivel']}")
+            print(f"Local: {alerta['bairro']}, {alerta['cidade']}")
+            print(f"{alerta['descricao']}\n")
+            registrar_alerta(alerta)
+            
     else:
         alertas = gerar_alertas_simulados(lat, lon, cidade, estado, bairro, rua)
         print(f"Exibindo alertas simulados para {bairro}, {cidade}...\n")
-
-    if not alertas:
-        print("Nenhum alerta para sua região.")
-        return
+        
+        if not alertas:
+            print("Nenhum alerta simulado disponível.")
+            return
+            
+        # Para alertas simulados, mostra um aleatório
+        alerta_aleatorio = random.choice(alertas)
+        if alerta_aleatorio["cidade"].lower() == cidade.lower():
+            if alerta_aleatorio["bairro"] == "" or alerta_aleatorio["bairro"].lower() == bairro.lower():
+                print(f"Emitido em: {alerta_aleatorio['data_emissao']}")
+                print(f"⚠️ {alerta_aleatorio['tipo']} - {alerta_aleatorio['nivel']}")
+                print(f"Local: {alerta_aleatorio['bairro']}, {alerta_aleatorio['cidade']}")
+                print(f"{alerta_aleatorio['descricao']}\n")
+                registrar_alerta(alerta_aleatorio)
     
-    alerta_aleatorio = random.choice(alertas)
-    if alerta_aleatorio["cidade"].lower() == cidade.lower():
-        if alerta_aleatorio["bairro"] == "" or alerta_aleatorio["bairro"].lower() == bairro.lower():
-            print(f"Emitido em: {alerta_aleatorio['data_emissao']}")
-            print(f"⚠️ {alerta_aleatorio['tipo']} - {alerta_aleatorio['nivel']}")
-            print(f"Local: {alerta_aleatorio['bairro']}, {alerta_aleatorio['cidade']}")
-            print(f"{alerta_aleatorio['descricao']}\n")
-            registrar_alerta(alerta_aleatorio)
+    input("\nPressione Enter para continuar...")
