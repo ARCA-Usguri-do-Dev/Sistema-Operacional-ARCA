@@ -125,7 +125,7 @@ pip install -r requirements.txt
 1. Execute o arquivo principal:
 
 ```bash
-python main.py
+python run.py
 ```
 
 2. Siga o menu interativo:
@@ -135,17 +135,28 @@ python main.py
 
 ## Estrutura do Projeto
 
-- `main.py`: Interface principal do sistema
-- `usuarios.py`: Gerenciamento de usuários e perfis
-- `alertas.py`: Sistema de alertas e notificações
-- `api_clima.py`: Integração com API de clima
-- `pontos_apoio.py`: Gerenciamento de pontos de apoio
-- `historico_alertas.py`: Registro e consulta de histórico
-- `geolocalizacao.py`: Integração com API de geolocalização
-- `hidratar.py`: Calculadora de hidratação
-- `utils.py`: Funções utilitárias
-- `config.py`: Configurações do sistema
-- `requirements.txt`: Dependências do projeto
+```
+Sistema-Operacional-ARCA/
+├── app/                    # Pacote principal do sistema
+│   ├── api/               # Integrações com APIs externas
+│   │   ├── api_clima.py   # API de clima
+│   │   └── geolocalizacao.py  # API de geolocalização
+│   │
+│   ├── core/             # Módulos principais do sistema
+│   │   ├── config.py     # Configurações do sistema
+│   │   └── utils.py      # Funções utilitárias
+│   │
+│   ├── main.py          # Interface principal do sistema
+│   ├── usuarios.py      # Gerenciamento de usuários
+│   ├── alertas.py       # Sistema de alertas
+│   ├── pontos_apoio.py  # Gerenciamento de pontos de apoio
+│   ├── historico_alertas.py  # Histórico de alertas
+│   └── hidratar.py      # Calculadora de hidratação
+│
+├── .gitignore           # Arquivos ignorados pelo Git
+├── requirements.txt     # Dependências do projeto
+└── run.py              # Script de execução do sistema
+```
 
 ## Contato
 
