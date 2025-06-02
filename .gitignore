@@ -15,6 +15,4 @@ venv/
 config.py
 
 
-# Chave da API
-api_clima.py
-geolocalizacao.py
+
