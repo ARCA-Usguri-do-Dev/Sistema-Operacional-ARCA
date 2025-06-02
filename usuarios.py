@@ -11,7 +11,7 @@ de usuários do sistema ARCA, incluindo:
 
 # Simula usuários vindos do Java
 usuarios = [
-    {'id': 1, 'nome': 'Ana Sophia Araújo', 'cpf': '438.150.926-98', 'email': 'anarajo@hotmail.net', 'telefone': '71 6379-4026', 'idade': 58, 'perfil': 'Usuário', 'lat': 35.6895, 'lon': 139.6917},
+    {'id': 1, 'nome': 'Ana Sophia Araújo', 'cpf': '438.150.926-98', 'email': 'anarajo@hotmail.net', 'telefone': '71 6379-4026', 'idade': 58, 'perfil': 'Usuário', 'lat': -23.5575, 'lon': -46.6603},
     {'id': 2, 'nome': 'Samuel Plaça', 'cpf': '518.302.467-71', 'email': 'profsamuel.placa@fiap.com.br', 'telefone': '0900-593-1034', 'idade': 26, 'perfil': 'Administrador', 'lat': -23.5505, 'lon': -46.6333},
     {'id': 3, 'nome': 'Enzo Castro', 'cpf': '647.521.980-02', 'email': 'enzo.castro@gmail.com', 'telefone': '+55 51 2764 8350', 'idade': 33, 'perfil': 'Usuário', 'lat': -25.9653, 'lon': 32.5892},
     {'id': 4, 'nome': 'Aiko Ribeiro', 'cpf': '083.759.162-77', 'email': 'aiko.ribeiro@gmail.com', 'telefone': '(011) 91234-5678', 'idade': 29, 'perfil': 'Usuário', 'lat': 48.8566, 'lon': 2.3522},

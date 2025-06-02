@@ -40,10 +40,10 @@ def obter_temperatura(lat, lon):
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={lat}&longitude={lon}"
         f"&current_weather=true"
-        f"&hourly=precipitation_probability"
+        f"&hourly=precipitation_probability,precipitation,windspeed_10m,windgusts_10m"
         f"&daily=precipitation_sum"
-        f"&current=windspeed_10m,windgusts_10m"
         f"&timezone=America%2FSao_Paulo"
+        f"&windspeed_unit=kmh"
     )
 
     try:
@@ -60,15 +60,14 @@ def obter_temperatura(lat, lon):
         current_weather = dados.get("current_weather", {})
         hourly = dados.get("hourly", {})
         daily = dados.get("daily", {})
-        current = dados.get("current", {})
         
         # Valores padrão caso algum campo não exista
         temperatura = current_weather.get("temperature", 28.0)
         weathercode = current_weather.get("weathercode", 0)
         chuva_prob = hourly.get("precipitation_probability", [0])[0] if hourly.get("precipitation_probability") else 0
         chuva_acumulada = daily.get("precipitation_sum", [0])[0] if daily.get("precipitation_sum") else 0
-        velocidade_vento = current.get("windspeed_10m", 0.0)
-        rajadas_vento = current.get("windgusts_10m", 0.0)
+        velocidade_vento = hourly.get("windspeed_10m", [0])[0] if hourly.get("windspeed_10m") else 0.0
+        rajadas_vento = hourly.get("windgusts_10m", [0])[0] if hourly.get("windgusts_10m") else 0.0
         
         condicao = interpretar_condicao_tempo(weathercode)
 

@@ -225,10 +225,10 @@ def menu_alertas(usuario_logado):
     # Escolhe entre alertas reais ou simulados
     if opcao == 1:
         alertas = gerar_alertas_automaticos(lat, lon, cidade, estado, bairro, rua)
-        print(f"\nBuscando alertas reais para {bairro}, {cidade}...\n")
+        print(f"Buscando alertas reais para {bairro}, {cidade}...\n")
     else:
         alertas = gerar_alertas_simulados(lat, lon, cidade, estado, bairro, rua)
-        print(f"\nExibindo alertas simulados para {bairro}, {cidade}...\n")
+        print(f"Exibindo alertas simulados para {bairro}, {cidade}...\n")
 
     if not alertas:
         print("Nenhum alerta para sua região.")
