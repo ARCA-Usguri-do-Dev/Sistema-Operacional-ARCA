@@ -7,6 +7,8 @@ Este módulo gerencia o histórico de alertas do sistema ARCA, incluindo:
 - Visualização do histórico de alertas
 """
 
+from geolocalizacao import obter_regiao
+
 # Lista que armazena o histórico de alertas
 historico_alertas = []
 
@@ -63,11 +65,14 @@ def menu_historico_alertas(usuario_logado):
             input("\nPressione Enter para continuar...")
             return
             
+        # Obtém a localização do usuário
+        _, _, cidade_usuario, _, _ = obter_regiao(usuario_logado['lat'], usuario_logado['lon'])
+            
         # Filtra alertas por cidade se não for administrador
         alertas_filtrados = []
         if usuario_logado['perfil'] != 'Administrador':
             for alerta in historico_alertas:
-                if alerta['cidade'].lower() == usuario_logado['cidade'].lower():
+                if alerta['cidade'].lower() == cidade_usuario.lower():
                     alertas_filtrados.append(alerta)
         else:
             alertas_filtrados = historico_alertas
