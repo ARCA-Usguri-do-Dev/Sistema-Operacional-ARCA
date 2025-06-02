@@ -2,62 +2,65 @@
 
 O Sistema ARCA é uma aplicação Python que gerencia alertas e recursos de apoio baseados em condições climáticas e localização. O sistema oferece funcionalidades para monitoramento de condições meteorológicas, geração de alertas, cálculo de hidratação e gerenciamento de pontos de apoio.
 
-## Funcionalidades Principais
+## Funcionalidades
 
-- **Gerenciamento de Usuários**
+### 1. Gerenciamento de Usuários
 
-  - Cadastro e edição de perfis
-  - Seleção de usuário ativo
-  - Visualização de usuários conectados
+- Cadastro e autenticação de usuários
+- Diferentes níveis de acesso (Administrador e Usuário)
+- Perfis personalizados com localização geográfica
+- Edição de dados do usuário
 
-- **Sistema de Alertas**
+### 2. Sistema de Alertas
 
-  - Alertas automáticos baseados em condições climáticas
-  - Monitoramento de temperatura
-  - Previsão de chuvas
-  - Alertas de tempestade
-  - Risco de enchente
+- **Alertas em Tempo Real**
 
-- **Pontos de Apoio**
+  - Monitoramento contínuo das condições climáticas
+  - Alertas baseados em dados reais do INMET
+  - Múltiplos tipos de alertas:
+    - Calor extremo (≥32°C)
+    - Chuvas intensas (≥70% de probabilidade)
+    - Tempestades
+    - Risco de enchente (≥30mm de chuva acumulada)
+    - Ventos fortes (≥30km/h)
+    - Rajadas de vento (≥50km/h)
+  - Níveis de severidade: Informativo, Atenção e Alerta Máximo
 
-  - Localização de pontos de apoio próximos
-  - Informações sobre recursos disponíveis
+- **Alertas Simulados**
+  - Modo de demonstração para testes
+  - Simulação de condições climáticas extremas
+  - Útil para treinamento e validação do sistema
 
-- **Histórico de Alertas**
+### 3. Pontos de Apoio
 
-  - Registro de alertas emitidos
-  - Visualização do histórico por região
+- Cadastro de locais seguros
+- Geolocalização precisa
+- Status de disponibilidade
+- Capacidade de atendimento
+- Restrição de acesso por perfil de usuário
 
-- **Calculadora de Hidratação**
-  - Cálculo personalizado baseado no peso
-  - Ajuste automático baseado na temperatura
-  - Recomendações diárias
+### 4. Histórico de Alertas
+
+- Registro completo de todos os alertas
+- Filtragem por região
+- Diferentes níveis de acesso ao histórico
+- Data e hora de emissão
+- Detalhes completos das condições
 
 ## Requisitos
 
-- Python 3.6 ou superior
-- Bibliotecas Python:
-  - requests
-  - datetime
-  - os
+- Python 3.8+
+- Conexão com internet para dados climáticos
+- Acesso à API de geolocalização
 
 ## Instalação
 
-1. Clone o repositório:
-
-```bash
-git clone https://github.com/seu-usuario/sistema-arca.git
-cd sistema-arca
-```
-
+1. Clone o repositório
 2. Instale as dependências:
 
 ```bash
 pip install -r requirements.txt
 ```
-
-3. Configure as chaves de API:
-   - Edite o arquivo `config.py` e adicione sua chave de API do OpenCage Geocoder
 
 ## Uso
 
@@ -72,19 +75,18 @@ python main.py
 - `main.py`: Arquivo principal do sistema
 - `usuarios.py`: Gerenciamento de usuários
 - `alertas.py`: Sistema de alertas
+- `api_clima.py`: Integração com API de clima
 - `pontos_apoio.py`: Gerenciamento de pontos de apoio
 - `historico_alertas.py`: Histórico de alertas
 - `hidratar.py`: Calculadora de hidratação
 - `geolocalizacao.py`: Integração com API de geolocalização
 - `api_clima.py`: Integração com API de clima
 - `utils.py`: Funções utilitárias
-- `config.py`: Configurações do sistema
-
 
 ## Contato
 
-| Nome                           | GitHub                                         | LinkedIn                                                               |
-| ------------------------------ | ------------------------------------------     | ---------------------------------------------------------------------- |
-| Alexander Dennis Isidro Mamani | [alex-isidro](https://github.com/alex-isidro)  | [LinkedIn](https://www.linkedin.com/in/alexander-dennis-a3b48824b/)    |
-| Kelson Zhang                   | [KelsonZh0](https://github.com/KelsonZh0)      | [LinkedIn](https://www.linkedin.com/in/kelson-zhang-211456323/)        |
-| Lucas Rossoni Dieder           | [PxS00](https://github.com/PxS00)              | [LinkedIn](https://www.linkedin.com/in/lucas-rossoni-dieder-32242a353/)|
+| Nome                           | GitHub                                        | LinkedIn                                                                |
+| ------------------------------ | --------------------------------------------- | ----------------------------------------------------------------------- |
+| Alexander Dennis Isidro Mamani | [alex-isidro](https://github.com/alex-isidro) | [LinkedIn](https://www.linkedin.com/in/alexander-dennis-a3b48824b/)     |
+| Kelson Zhang                   | [KelsonZh0](https://github.com/KelsonZh0)     | [LinkedIn](https://www.linkedin.com/in/kelson-zhang-211456323/)         |
+| Lucas Rossoni Dieder           | [PxS00](https://github.com/PxS00)             | [LinkedIn](https://www.linkedin.com/in/lucas-rossoni-dieder-32242a353/) |
