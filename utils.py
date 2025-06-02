@@ -50,4 +50,4 @@ def validar_input_float(mensagem):
             valor = float(input(mensagem))
             return valor
         except ValueError:
-            print("Valor inválido. Digite um número válido.")
+            print("⚠️ Valor inválido. Digite um número válido.")

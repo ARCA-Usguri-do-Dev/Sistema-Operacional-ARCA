@@ -1,6 +1,6 @@
 # Sistema ARCA - Sistema de Gerenciamento de Alertas e Recursos de Apoio
 
-O Sistema ARCA é uma aplicação Python que gerencia alertas e recursos de apoio baseados em condições climáticas e localização. O sistema oferece funcionalidades para monitoramento de condições meteorológicas, geração de alertas, cálculo de hidratação e gerenciamento de pontos de apoio.
+O Sistema ARCA é uma aplicação Python que gerencia alertas e recursos de apoio baseados em condições climáticas e localização. O sistema oferece funcionalidades para monitoramento de condições meteorológicas, geração de alertas, gerenciamento de pontos de apoio e cálculo de hidratação.
 
 ## Funcionalidades
 
@@ -47,6 +47,16 @@ O Sistema ARCA é uma aplicação Python que gerencia alertas e recursos de apoi
 - Data e hora de emissão
 - Detalhes completos das condições
 
+### 5. Calculadora de Hidratação
+
+- Cálculo personalizado baseado em:
+  - Peso corporal do usuário
+  - Temperatura atual da região
+- Ajustes automáticos por temperatura:
+  - +1.0 litro se temperatura ≥ 32°C
+  - +0.5 litro se temperatura ≥ 28°C
+- Base de cálculo: 35ml por kg de peso
+
 ## Requisitos
 
 - Python 3.8+
@@ -78,9 +88,8 @@ python main.py
 - `api_clima.py`: Integração com API de clima
 - `pontos_apoio.py`: Gerenciamento de pontos de apoio
 - `historico_alertas.py`: Histórico de alertas
-- `hidratar.py`: Calculadora de hidratação
 - `geolocalizacao.py`: Integração com API de geolocalização
-- `api_clima.py`: Integração com API de clima
+- `hidratar.py`: Calculadora de hidratação
 - `utils.py`: Funções utilitárias
 
 ## Contato

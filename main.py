@@ -25,16 +25,6 @@ from usuarios import usuarios
 # Inicializa com um usuário aleatório
 usuario_logado = random.choice(usuarios)
 
-def trocar_usuario():
-    """
-    Permite trocar o usuário atualmente logado no sistema.
-    
-    Returns:
-        None: A função modifica a variável global usuario_logado
-    """
-    global usuario_logado
-    usuario_logado = selecionar_usuario()
-
 def menu_main():
     """
     Exibe e gerencia o menu principal do sistema ARCA.
@@ -52,53 +42,58 @@ def menu_main():
     """
     global usuario_logado
     while True:
-        if usuario_logado:
-            print(f"\n👤 Usuário logado: {usuario_logado['nome']} ({usuario_logado['perfil']})")
-        else:
-            print("\n⚠️ Nenhum usuário logado.")
+        try:
+            if usuario_logado:
+                print(f"\n👤 Usuário logado: {usuario_logado['nome']} ({usuario_logado['perfil']})")
+            else:
+                print("\n⚠️ Nenhum usuário logado.")
 
-        print("\n~~~~ Sistema ARCA - Menu Principal ~~~~")
-        print('1 - Usuário')
-        print('2 - Alertas')
-        print('3 - Pontos de Apoio')
-        print('4 - Histórico de Alertas')
-        print('5 - Calculadora de Hidratação')
-        print('0 - Sair')
+            print("\n~~~~ Sistema ARCA - Menu Principal ~~~~")
+            print('1 - Usuário')
+            print('2 - Alertas')
+            print('3 - Pontos de Apoio')
+            print('4 - Histórico de Alertas')
+            print('5 - Calculadora de Hidratação')
+            print('0 - Sair')
 
-        opcao = input("\nEscolha uma opção: ")
+            opcao = input("\nEscolha uma opção: ")
 
-        if opcao == '1':
-            novo_usuario = menu_usuarios(usuario_logado)
-            if novo_usuario:
-                usuario_logado = novo_usuario
-        elif opcao == '2':
-            if usuario_logado:
-                menu_alertas(usuario_logado)
+            if opcao == '1':
+                novo_usuario = menu_usuarios(usuario_logado)
+                if novo_usuario:
+                    usuario_logado = novo_usuario
+            elif opcao == '2':
+                if usuario_logado:
+                    menu_alertas(usuario_logado)
+                else:
+                    print("⚠️ Você precisa selecionar um usuário primeiro.")
+            elif opcao == '3':
+                if usuario_logado:
+                    menu_pontos_apoio(usuario_logado)
+                else:
+                    print("⚠️ Você precisa selecionar um usuário primeiro.")
+            elif opcao == '4':
+                if usuario_logado:
+                    menu_historico_alertas(usuario_logado)
+                else:
+                    print("⚠️ Você precisa selecionar um usuário primeiro.")
+            elif opcao == '5':
+                if usuario_logado:
+                    menu_calculadora_hidratacao(usuario_logado)
+                else:
+                    print("⚠️ Você precisa selecionar um usuário primeiro.")
+            elif opcao == '0':
+                print("\n👋 Saindo do sistema...")
+                break
             else:
-                print("⚠️  Você precisa selecionar um usuário primeiro.")
-        elif opcao == '3':
-            if usuario_logado:
-                menu_pontos_apoio(usuario_logado)
-            else:
-                print("⚠️  Você precisa selecionar um usuário primeiro.")
-        elif opcao == '4':
-            if usuario_logado:
-                menu_historico_alertas(usuario_logado)
-            else:
-                print("⚠️  Você precisa selecionar um usuário primeiro.")
-        elif opcao == '5':
-            if usuario_logado:
-                menu_calculadora_hidratacao(usuario_logado)
-            else:
-                print("⚠️  Você precisa selecionar um usuário primeiro.")
-        elif opcao == '0':
-            print("\nSaindo do sistema...")
-            break
-        else:
-            print("Opção inválida. Tente novamente.")
+                print("⚠️ Opção inválida. Tente novamente.")
+                input("\nPressione Enter para continuar...")
+
+        except Exception as e:
+            print(f"⚠️ Erro no menu principal: {str(e)}")
             input("\nPressione Enter para continuar...")
 
-    print("\nSistema finalizado com sucesso.\n")
+    print("\n✅ Sistema finalizado com sucesso.\n")
 
 if __name__ == "__main__":
     limpar_console()
