@@ -232,7 +232,7 @@ def menu_alertas(usuario_logado):
             print(f"\n🔍 Buscando alertas reais para {bairro}, {cidade}...\n")
             
             if not alertas:
-                print("ℹ️ Nenhum alerta para sua região.")
+                print("ℹ️  Nenhum alerta para sua região.")
                 return
             
             # Mostra todos os alertas reais

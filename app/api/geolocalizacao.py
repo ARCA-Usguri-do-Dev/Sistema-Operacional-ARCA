@@ -6,7 +6,7 @@ coordenadas geográficas (latitude e longitude) utilizando a API OpenCage Geocod
 """
 
 import requests
-from app.core.config import API_KEY
+from config import API_KEY
 
 def obter_regiao(lat, lon):
     """
