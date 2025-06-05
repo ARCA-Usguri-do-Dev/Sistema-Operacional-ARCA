@@ -166,7 +166,7 @@ Sistema-Operacional-ARCA/
 | Kelson Zhang                   | [KelsonZh0](https://github.com/KelsonZh0)     | [LinkedIn](https://www.linkedin.com/in/kelson-zhang-211456323/)         |
 | Lucas Rossoni Dieder           | [PxS00](https://github.com/PxS00)             | [LinkedIn](https://www.linkedin.com/in/lucas-rossoni-dieder-32242a353/) |
 
-## 📝 Notas
+## Notas
 
 - O sistema utiliza APIs externas para dados climáticos e geolocalização
 - Algumas funcionalidades podem requerer conexão com internet
